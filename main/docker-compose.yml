@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    command: "gunicorn main.wsgi:application --bind 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - .:/app
+
+  nginx:
+    image: nginx:1.25-alpine3.17-slim
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./log:/var/log/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    restart: always
