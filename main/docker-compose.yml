@@ -9,6 +9,10 @@ services:
     restart: always
     volumes:
       - .:/app
+    environment:
+      - ALLOWED_HOSTS=127.0.0.1 localhost [::]
+      - SECRET_KEY=django-insecure-^+d(k8pn^=g3e7@+@&6)qb$#oe24llxdg+7ajx+a)p=w$x@tl^
+      - DEBUG=0
 
   nginx:
     image: nginx:1.25-alpine3.17-slim
