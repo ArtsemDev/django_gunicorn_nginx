@@ -9,9 +9,10 @@ services:
     restart: always
     volumes:
       - .:/app
+      - ./static:/home/app/web/static
     environment:
-      - ALLOWED_HOSTS=127.0.0.1 localhost [::]
-      - SECRET_KEY=django-insecure-^+d(k8pn^=g3e7@+@&6)qb$#oe24llxdg+7ajx+a)p=w$x@tl^
+      - ALLOWED_HOSTS=bots1.from.duck.fvds.ru 82.146.58.223 127.0.0.1 localhost [::] 0.0.0.0
+      - SECRET_KEY=django-insecure
       - DEBUG=0
 
   nginx:
@@ -19,8 +20,18 @@ services:
     volumes:
       - ./conf.d:/etc/nginx/conf.d
       - ./log:/var/log/nginx
+      - ./static:/home/app/web/static
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - web
     restart: always
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
