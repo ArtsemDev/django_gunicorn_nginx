@@ -9,6 +9,7 @@ services:
     restart: always
     volumes:
       - .:/app
+      - ./static:/home/app/web/static
     environment:
       - ALLOWED_HOSTS=127.0.0.1 localhost [::]
       - SECRET_KEY=django-insecure-^+d(k8pn^=g3e7@+@&6)qb$#oe24llxdg+7ajx+a)p=w$x@tl^
@@ -19,6 +20,7 @@ services:
     volumes:
       - ./conf.d:/etc/nginx/conf.d
       - ./log:/var/log/nginx
+      - ./static:/home/app/web/static
     ports:
       - "80:80"
     depends_on:
